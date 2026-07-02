@@ -277,12 +277,25 @@ CubeLauncher - Made By TavBav99
 
 <script>
 function openPage(path){
-    window.location.href = path;
+    const popup = window.open(
+        path,
+        "CubeLauncher",
+        "popup=yes,width=1280,height=720,left=100,top=100,resizable=yes,scrollbars=yes"
+    );
+
+    if (popup) popup.focus();
 }
 
 function openModpack(modpack){
     const runtime = document.getElementById("runtime").value;
-    window.location.href = `${modpack}/${runtime}/index.html`;
+
+    const popup = window.open(
+        `${modpack}/${runtime}/index.html`,
+        "CubeLauncher",
+        "popup=yes,width=1280,height=720,left=100,top=100,resizable=yes,scrollbars=yes"
+    );
+
+    if (popup) popup.focus();
 }
 
 function updateRuntimeLabel(){
