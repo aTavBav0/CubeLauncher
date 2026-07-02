@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="icon.png">
+<title>CubeLauncher</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Press Start 2P", monospace;
+    background:
+        linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+        url("https://images.minecraft.wiki/images/Dirt_%28texture%29_JE2_BE2.png");
+    background-size:128px;
+    color:white;
+    min-height:100vh;
+}
+
+header{
+    text-align:center;
+    font-size:34px;
+    padding:35px 20px 10px;
+    color:#fff;
+    text-shadow:
+        4px 4px #000,
+        0 0 10px #7CFC00;
+}
+
+.subtitle{
+    text-align:center;
+    color:#cfcfcf;
+    font-size:11px;
+    margin-bottom:30px;
+}
+
+.wrapper{
+    width:min(1200px,95%);
+    margin:auto;
+}
+
+.section{
+    margin:30px 0 15px;
+    padding:12px;
+    background:#2d2d2d;
+    border:4px solid #555;
+    border-top-color:#777;
+    border-left-color:#777;
+    font-size:15px;
+    text-shadow:2px 2px black;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+#runtimeLabel{
+    color:#ffd54f;
+    font-size:11px;
+}
+
+.container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:16px;
+}
+
+button{
+    font-family:inherit;
+    font-size:11px;
+    color:white;
+    background:#5f8f3d;
+    border:4px solid;
+    border-color:#8bc34a #355d1f #355d1f #8bc34a;
+    padding:18px;
+    cursor:pointer;
+    transition:.08s;
+    text-shadow:2px 2px black;
+}
+
+button:hover{
+    background:#6fb344;
+}
+
+button:active{
+    transform:translateY(2px);
+    border-color:#355d1f #8bc34a #8bc34a #355d1f;
+}
+
+select{
+    width:100%;
+    font-family:inherit;
+    font-size:11px;
+    color:white;
+    background:#c59d2a;
+    border:4px solid;
+    border-color:#f6d86b #8c6d16 #8c6d16 #f6d86b;
+    padding:16px;
+    margin-bottom:16px;
+    cursor:pointer;
+    outline:none;
+    text-shadow:2px 2px black;
+}
+
+select:hover{
+    background:#d9b338;
+}
+
+select option{
+    background:#2d2d2d;
+    color:white;
+}
+
+.footer{
+    text-align:center;
+    margin:50px 0 25px;
+    font-size:10px;
+    color:#bbb;
+}
+
+.legacy-text{
+    color:#ffb300;
+}
+</style>
+</head>
+<body>
+
+<header>CubeLauncher</header>
+<div class="subtitle">Choose a Minecraft Version</div>
+
+<div class="wrapper">
+
+<div class="section">
+    <span>Latest Releases</span>
+</div>
+
+<div class="container">
+<button onclick="openPage('1.20.4/index.html')">Minecraft 1.20.4</button>
+<button onclick="openPage('1.12.2/index.html')">Minecraft 1.12.2</button>
+<button onclick="openPage('1.8/index.html')">Minecraft 1.8</button>
+<button onclick="openPage('1.2.5/index.html')">Minecraft 1.2.5</button>
+</div>
+
+<div class="section">
+    <span>Clients</span>
+</div>
+
+
+<div class="container">
+<button onclick="openPage('1.12.2/pixel.html')">Pixel Client 1.12.2</button>
+<button onclick="openPage('1.12.2/tuff.html')">Tuff Client 1.12.2</button>
+<button onclick="openPage('1.8/astra.html')">Astra Client 1.8</button>
+<button onclick="openPage('1.8/pixel.html')">Pixel Client 1.8</button>
+<button onclick="openPage('1.8/resent.html')">Resent Client 1.8</button>
+</div>
+
+<div class="section">
+    <span>Beta</span>
+</div>
+
+<div class="container">
+<button onclick="openPage('beta/1.8.1.html')">Beta 1.8.1</button>
+<button onclick="openPage('beta/1.6_3.html')">Beta 1.6.3</button>
+</div>
+
+<div class="section">
+    <span>Alpha</span>
+</div>
+
+<div class="container">
+<button onclick="openPage('alpha/1.2.6.html')">Alpha 1.2.6</button>
+<button onclick="openPage('alpha/1.0.16.html')">Alpha 1.0.16</button>
+</div>
+
+<div class="section">
+    <span>Pre-Alpha</span>
+</div>
+
+<div class="container">
+<button onclick="openPage('indev/index.html')">Indev</button>
+<button onclick="openPage('0.30/index.html')">Classic 0.30</button>
+<button onclick="openPage('Classic/index.html')">Classic</button>
+</div>
+
+<div class="section">
+    <span>Modpacks</span>
+    <span id="runtimeLabel"></span>
+</div>
+
+<select id="runtime" onchange="updateRuntimeLabel()">
+    <option value="wasm_gc_jspi_offline" selected>Modern Runtime</option>
+    <option value="wasm_gc_legacy_offline">Legacy Runtime</option>
+</select>
+
+<div class="container">
+<button class="modpack" data-name="Ultimate Collection" onclick="openModpack('ultimate')">Ultimate Collection</button>
+<button class="modpack" data-name="Industrial Age" onclick="openModpack('tech')">Industrial Age</button>
+<button class="modpack" data-name="All The Magic" onclick="openModpack('magic')">All The Magic</button>
+<button class="modpack" data-name="Explorer's Modpack" onclick="openModpack('explore')">Explorer's Modpack</button>
+<button class="modpack" data-name="SkyFactory" onclick="openModpack('skyfactory')">SkyFactory</button>
+<button class="modpack" data-name="Vanilla+" onclick="openModpack('vanilla')">Vanilla+</button>
+<button class="modpack" data-name="Performance Lite" onclick="openModpack('lite')">Performance Lite</button>
+</div>
+
+<div class="section">
+    <span>Downloads</span>
+</div>
+
+<div class="container">
+
+<div>
+    <select onchange="downloadFile(this)">
+        <option selected disabled>Maps</option>
+        <option value="Maps/Shmar v1.0.5.zip">Shmar v1.0.5</option>
+        <option value="Maps/Skyblock 3.07.zip">Skyblock 3.07</option>
+        <option value="Maps/The Dropper OG.zip">The Dropper OG</option>
+        <option value="Maps/The Temple of Notch.zip">The Temple of Notch</option>
+        <option value="Maps/The_Temple_of_Notch.zip">The Temple of Notch (Alt)</option>
+        <option value="Maps/TU46TutorialWorld.zip">TU46 Tutorial World</option>
+    </select>
+</div>
+
+<div>
+    <select onchange="downloadFile(this)">
+        <option selected disabled>Texture Packs</option>
+
+        <option value="TexturePacks/Bare Bones 1.12.zip">Bare Bones (1.12.2)</option>
+        <option value="TexturePacks/CubicSun 1.8-1.12.zip">CubicSun (1.8 | 1.20.4)</option>
+
+        <option value="TexturePacks/Default-Dark-Mode-1.12-2023.6.0.zip">Default Dark Mode (1.12)</option>
+        <option value="TexturePacks/Default-Dark-Mode-1.8-2023.6.0.zip">Default Dark Mode (1.8 | 1.20.4)</option>
+
+        <option value="TexturePacks/Faithful 32x - 1.12.2.zip">Faithful 32x (1.12.2)</option>
+        <option value="TexturePacks/Faithful 32x - 1.8.9.zip">Faithful 32x (1.8 | 1.20.4)</option>
+
+        <option value="TexturePacks/LowOnFire_1.12.zip">LowOnFire (1.12.2)</option>
+        <option value="TexturePacks/LowOnFire_1.8.9.zip">LowOnFire (1.8 | 1.20.4)</option>
+
+        <option value="TexturePacks/Redstone++ v1.2 [1.12.2](1).zip">Redstone++ (1.12.2)</option>
+    </select>
+</div>
+
+<div>
+    <select onchange="downloadFile(this)">
+        <option selected disabled>Skins</option>
+
+        <option value="Skins/black.png">Black</option>
+        <option value="Skins/blueslime.png">Blue Slime</option>
+        <option value="Skins/bluesmile.png">Blue Smile</option>
+        <option value="Skins/dressedslime.png">Dressed Slime</option>
+        <option value="Skins/knight.png">Knight</option>
+        <option value="Skins/link.png">Link</option>
+        <option value="Skins/linkbotw.png">Link (BOTW)</option>
+        <option value="Skins/parrot.png">Parrot</option>
+        <option value="Skins/rat.png">Rat</option>
+        <option value="Skins/slime.png">Slime</option>
+        <option value="Skins/slimepurple.png">Purple Slime</option>
+        <option value="Skins/steve.png">Steve</option>
+        <option value="Skins/white.png">White</option>
+        <option value="Skins/yellowsmile.png">Yellow Smile</option>
+    </select>
+</div>
+
+</div>
+
+<div class="footer">
+CubeLauncher - Made By TavBav99
+</div>
+
+</div>
+
+<script>
+function openPage(path){
+    window.location.href = path;
+}
+
+function openModpack(modpack){
+    const runtime = document.getElementById("runtime").value;
+    window.location.href = `${modpack}/${runtime}/index.html`;
+}
+
+function updateRuntimeLabel(){
+    const legacy = document.getElementById("runtime").value === "wasm_gc_legacy_offline";
+
+    document.querySelectorAll(".modpack").forEach(button => {
+        const name = button.dataset.name;
+
+        if (legacy) {
+            button.innerHTML = `${name} <span class="legacy-text">(Legacy)</span>`;
+        } else {
+            button.textContent = name;
+        }
+    });
+}
+
+function downloadFile(select) {
+    if (!select.value) return;
+
+    const link = document.createElement("a");
+    link.href = select.value;
+    link.download = "";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    select.selectedIndex = 0;
+}
+
+document.getElementById("runtime").addEventListener("change", updateRuntimeLabel);
+updateRuntimeLabel();
+</script>
+
+</body>
+</html>
